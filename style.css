@@ -262,7 +262,7 @@ body.has-nav-bas { padding-bottom: 72px; }
   position: absolute;
   inset: 0;
   background-color: #2a2515;
-  background-image: url('images/hero.jpg');
+  background-image: url('assets/imaeprinc.png');
   background-size: cover;
   background-position: center;
   filter: saturate(0.82) brightness(0.68);
