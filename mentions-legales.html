@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mentions légales de La Petite Crêperie, Castres. Informations légales, éditeur, hébergeur et données personnelles.">
+  <title>Mentions légales - La Petite Crêperie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300&family=Geist:wght@200;300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="mentions-page">
+
+  <!-- Grain overlay (SVG feTurbulence inline) -->
+  <div class="grain" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none">
+      <filter id="grain-filter" x="0%" y="0%" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="noise"/>
+        <feColorMatrix type="saturate" values="0" in="noise"/>
+      </filter>
+      <rect width="100%" height="100%" filter="url(#grain-filter)"/>
+    </svg>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav" aria-label="Navigation principale">
+    <a href="/" class="nav__logo">La Petite Crêperie</a>
+    <ul class="nav__links">
+      <li><a href="/#histoire">Histoire</a></li>
+      <li><a href="/#carte">La Carte</a></li>
+      <li><a href="/#equipe">L'équipe</a></li>
+      <li><a href="/#avis">Avis</a></li>
+      <li><a href="/#contact">Contact</a></li>
+    </ul>
+    <a href="tel:0634522900" class="nav__cta" aria-label="Appeler le 06 34 52 29 00">06 34 52 29 00</a>
+  </nav>
+
+  <!-- Mentions légales -->
+  <main class="mentions" aria-label="Mentions légales">
+    <h1>Mentions légales</h1>
+
+    <h2>Éditeur du site</h2>
+    <address>
+      La Petite Crêperie<br>
+      20 rue Henry le Châtelier<br>
+      81100 Castres, France<br>
+      Téléphone : <a href="tel:0634522900">06 34 52 29 00</a><br>
+      Email : <a href="mailto:lapetite.creperie@hotmail.com">lapetite.creperie@hotmail.com</a>
+    </address>
+    <p>Numéro SIRET : [à compléter]<br>
+    Responsable de la publication : Marine [NOM À COMPLÉTER]</p>
+
+    <h2>Hébergeur</h2>
+    <address>
+      Netlify, Inc.<br>
+      512 2nd Street, Suite 200<br>
+      San Francisco, CA 94107<br>
+      États-Unis<br>
+      Site web : <a href="https://www.netlify.com" rel="noopener noreferrer" target="_blank">www.netlify.com</a>
+    </address>
+
+    <h2>Conception et réalisation</h2>
+    <p>Site conçu et réalisé par AlcalSpark.</p>
+
+    <h2>Propriété intellectuelle</h2>
+    <p>L'ensemble des contenus présents sur ce site (textes, photographies, illustrations) est la propriété exclusive de La Petite Crêperie, sauf mention contraire. Toute reproduction, représentation, modification ou adaptation, totale ou partielle, est interdite sans autorisation préalable.</p>
+
+    <h2>Données personnelles</h2>
+    <p>Ce site ne collecte aucune donnée personnelle directement. Aucun formulaire de contact, cookie de tracking ou outil analytique n'est utilisé.</p>
+    <p>Ce site intègre une carte Google Maps via iframe (service tiers). Google peut collecter des données selon sa propre politique de confidentialité, accessible sur <a href="https://policies.google.com/privacy" rel="noopener noreferrer" target="_blank">policies.google.com/privacy</a>.</p>
+
+    <h2>Contact</h2>
+    <p>Pour toute question relative à ce site : <a href="mailto:lapetite.creperie@hotmail.com">lapetite.creperie@hotmail.com</a></p>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" aria-label="Pied de page">
+    <span class="footer__logo">La Petite Crêperie</span>
+    <ul class="footer__nav" role="list">
+      <li><a href="/#histoire">Histoire</a></li>
+      <li><a href="/#carte">La Carte</a></li>
+      <li><a href="/#equipe">Équipe</a></li>
+      <li><a href="/#contact">Contact</a></li>
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+    </ul>
+    <p class="footer__credit">Création <a href="#" rel="noopener noreferrer">AlcalSpark</a></p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

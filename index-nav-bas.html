@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="La Petite Crêperie - Galettes bretonnes au sarrasin bio et crêpes sucrées artisanales à Castres (Tarn). Produits locaux, fait maison, circuit court. Ouvert lundi-samedi 11h45-14h15.">
+  <title>La Petite Crêperie - Galettes &amp; Crêpes artisanales à Castres</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300&family=Geist:wght@200;300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="has-nav-bas">
+
+  <!-- Grain overlay (SVG feTurbulence inline) -->
+  <div class="grain" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none">
+      <filter id="grain-filter" x="0%" y="0%" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="noise"/>
+        <feColorMatrix type="saturate" values="0" in="noise"/>
+      </filter>
+      <rect width="100%" height="100%" filter="url(#grain-filter)"/>
+    </svg>
+  </div>
+
+  <!-- =====================================================
+       HERO
+       ===================================================== -->
+  <section class="hero" id="hero" aria-label="Accueil">
+    <div class="hero__bg" id="hero-bg" role="img" aria-label="Galette sarrasin sur billig en fonte"></div>
+    <div class="hero__vignette" aria-hidden="true"></div>
+
+    <div class="hero__brand" aria-hidden="true">
+      <span class="hero__brand-name">La Petite Crêperie</span>
+    </div>
+
+    <div class="hero__score" aria-label="Note client 4,8 sur 5 étoiles Google">
+      <div class="hero__score-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <div class="hero__score-text">4.8 - Google</div>
+    </div>
+
+    <div class="hero__content">
+      <h1 class="hero__title">
+        <span class="hero__title-main">Galettes</span>
+        <span class="hero__title-sub">&amp; crêpes</span>
+      </h1>
+
+      <div class="hero__infos" role="list" aria-label="Informations pratiques">
+        <div class="hero__info" role="listitem">
+          <div class="hero__info-label">Horaires</div>
+          <div class="hero__info-value">Lun - Sam - 11h45 à 14h15</div>
+        </div>
+        <div class="hero__info" role="listitem">
+          <div class="hero__info-label">Adresse</div>
+          <div class="hero__info-value">20 rue Henry le Châtelier, Castres</div>
+        </div>
+        <div class="hero__info" role="listitem">
+          <div class="hero__info-label">Téléphone</div>
+          <div class="hero__info-value"><a href="tel:0634522900">06 34 52 29 00</a></div>
+        </div>
+      </div>
+    </div>
+
+    <span class="hero__scroll" aria-hidden="true">Défiler ↓</span>
+  </section>
+
+  <!-- =====================================================
+       RUBAN ANIMÉ
+       ===================================================== -->
+  <div class="ruban" aria-hidden="true">
+    <div class="ruban__track">
+      <span class="ruban__item">Galettes bretonnes <span class="ruban__sep">✦</span></span>
+      <span class="ruban__item">Blé noir bio <span class="ruban__sep">✦</span></span>
+      <span class="ruban__item">Produits du Tarn <span class="ruban__sep">✦</span></span>
+      <span class="ruban__item">Circuit court <span class="ruban__sep">✦</span></span>
+      <span class="ruban__item">Préparation minute <span class="ruban__sep">✦</span></span>
+      <span class="ruban__item">Fait maison <span class="ruban__sep">✦</span></span>
+      <span class="ruban__item">Galettes bretonnes <span class="ruban__sep">✦</span></span>
+      <span class="ruban__item">Blé noir bio <span class="ruban__sep">✦</span></span>
+      <span class="ruban__item">Produits du Tarn <span class="ruban__sep">✦</span></span>
+      <span class="ruban__item">Circuit court <span class="ruban__sep">✦</span></span>
+      <span class="ruban__item">Préparation minute <span class="ruban__sep">✦</span></span>
+      <span class="ruban__item">Fait maison <span class="ruban__sep">✦</span></span>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       HISTOIRE
+       ===================================================== -->
+  <section class="histoire" id="histoire" aria-label="Notre histoire">
+    <div class="histoire__watermark" aria-hidden="true">Bretagne</div>
+    <div class="histoire__grid">
+
+      <div class="histoire__content">
+        <span class="histoire__kicker sr">Notre histoire</span>
+        <h2 class="histoire__titre sr d1">Le Tarn rencontre <em>la Bretagne</em></h2>
+        <p class="histoire__texte sr d2">Ouverte en 2023 par Marine, La Petite Crêperie est née d'une envie simple et sincère : apporter la tradition des galettes bretonnes au coeur du Tarn. Ici, le sarrasin bio voyage depuis la Bretagne pour rencontrer les produits du terroir local.</p>
+        <p class="histoire__texte sr d3">Chaque galette est préparée à la minute, sur des billigs en fonte hérités d'une longue tradition. Marine et son équipe choisissent leurs producteurs avec soin, privilégiant le circuit court et les saveurs authentiques.</p>
+        <div class="histoire__pills sr d3">
+          <span class="histoire__pill">Sarrasin breton</span>
+          <span class="histoire__pill">Producteurs locaux</span>
+          <span class="histoire__pill">Ouvert en 2023</span>
+          <span class="histoire__pill">Castres, Tarn</span>
+        </div>
+      </div>
+
+      <div class="histoire__photo-wrap sr-right">
+        <div class="histoire__photo">
+          <!-- Remplacer par : <img src="images/histoire.jpg" alt="Galette sarrasin préparée à la minute sur billig en fonte" loading="lazy"> -->
+          <div class="img-placeholder" role="img" aria-label="Galette sarrasin préparée à la minute sur billig en fonte">histoire.jpg</div>
+        </div>
+        <span class="histoire__etiquette">Castres - 2023</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =====================================================
+       VALEURS
+       ===================================================== -->
+  <section class="valeurs" aria-label="Nos engagements">
+    <div class="valeurs__grid">
+
+      <div class="valeurs__item sr">
+        <span class="valeurs__num" aria-hidden="true">01</span>
+        <span class="valeurs__label">Circuit court</span>
+        <h3 class="valeurs__titre">Producteurs locaux</h3>
+        <p class="valeurs__desc">Nous travaillons en direct avec les agriculteurs et artisans du Tarn pour garantir fraîcheur et traçabilité.</p>
+      </div>
+
+      <div class="valeurs__item sr d1">
+        <span class="valeurs__num" aria-hidden="true">02</span>
+        <span class="valeurs__label">Fait maison</span>
+        <h3 class="valeurs__titre">Recettes maison</h3>
+        <p class="valeurs__desc">Caramel beurre salé, garnitures, sauces - tout est préparé chaque matin dans notre cuisine.</p>
+      </div>
+
+      <div class="valeurs__item sr d2">
+        <span class="valeurs__num" aria-hidden="true">03</span>
+        <span class="valeurs__label">À la minute</span>
+        <h3 class="valeurs__titre">Fraîcheur absolue</h3>
+        <p class="valeurs__desc">Chaque crêpe et galette est cuite à la commande, sur billig en fonte, pour une texture et une saveur incomparables.</p>
+      </div>
+
+      <div class="valeurs__item sr d3">
+        <span class="valeurs__num" aria-hidden="true">04</span>
+        <span class="valeurs__label">De saison</span>
+        <h3 class="valeurs__titre">Carte évolutive</h3>
+        <p class="valeurs__desc">Notre carte suit les saisons et les arrivages. Les suggestions du mois reflètent le meilleur du moment.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =====================================================
+       LA CARTE
+       ===================================================== -->
+  <section class="carte" id="carte" aria-label="La carte">
+    <div class="carte__watermark" aria-hidden="true">C</div>
+    <div class="carte__inner">
+
+      <div class="carte__header">
+        <div class="carte__header-left">
+          <span class="carte__kicker sr">Galettes &amp; Crêpes</span>
+          <h2 class="carte__titre sr d1">La <em>Carte</em></h2>
+        </div>
+        <a href="#" class="carte__lien sr" aria-label="Voir la carte complète">Carte complète →</a>
+      </div>
+
+      <div class="carte__categories">
+
+        <div class="carte__cat sr">
+          <h3 class="carte__cat-title">Galettes - sarrasin bio breton</h3>
+          <ul class="carte__plats">
+            <li class="carte__plat">
+              <div class="carte__plat-info">
+                <div class="carte__plat-nom">La Complète</div>
+                <div class="carte__plat-desc">Oeuf, jambon, emmental fondu</div>
+              </div>
+              <span class="carte__plat-prix">12,50 €</span>
+            </li>
+            <li class="carte__plat">
+              <div class="carte__plat-info">
+                <div class="carte__plat-nom">Yvonne <em>suggestion du mois</em></div>
+                <div class="carte__plat-desc">Oeuf miroir, jambon de pays affiné 12 mois, Grana Padano, tomates confites, olives noires, crème balsamique</div>
+              </div>
+              <span class="carte__plat-prix">15,50 €</span>
+            </li>
+            <li class="carte__plat">
+              <div class="carte__plat-info">
+                <div class="carte__plat-nom">La Marguerite</div>
+                <div class="carte__plat-desc">Chèvre frais, noix, miel, roquette, tomates séchées</div>
+              </div>
+              <span class="carte__plat-prix">13,50 €</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="carte__cat sr d1">
+          <h3 class="carte__cat-title">Crêpes sucrées</h3>
+          <ul class="carte__plats">
+            <li class="carte__plat">
+              <div class="carte__plat-info">
+                <div class="carte__plat-nom">Beurre sucre</div>
+                <div class="carte__plat-desc"></div>
+              </div>
+              <span class="carte__plat-prix">5,50 €</span>
+            </li>
+            <li class="carte__plat">
+              <div class="carte__plat-info">
+                <div class="carte__plat-nom">Armelle <em>suggestion du mois</em></div>
+                <div class="carte__plat-desc">Caramel beurre salé maison, éclats de palet breton, glace Palet Breton</div>
+              </div>
+              <span class="carte__plat-prix">9,00 €</span>
+            </li>
+            <li class="carte__plat">
+              <div class="carte__plat-info">
+                <div class="carte__plat-nom">Banana Split</div>
+                <div class="carte__plat-desc">Banane fraîche, chocolat noir maison, chantilly, éclats de noisette</div>
+              </div>
+              <span class="carte__plat-prix">8,50 €</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="carte__cat sr d2">
+          <h3 class="carte__cat-title">Boissons &amp; Cidres</h3>
+          <ul class="carte__plats">
+            <li class="carte__plat">
+              <div class="carte__plat-info">
+                <div class="carte__plat-nom">Cidre rosé Val de Rance</div>
+                <div class="carte__plat-desc">Cidre breton artisanal, fruité, légèrement pétillant</div>
+              </div>
+              <span class="carte__plat-prix">5,00 €</span>
+            </li>
+            <li class="carte__plat">
+              <div class="carte__plat-info">
+                <div class="carte__plat-nom">Bière Lancelot</div>
+                <div class="carte__plat-desc">Brasserie bretonne artisanale - blonde ou ambrée</div>
+              </div>
+              <span class="carte__plat-prix">4,50 €</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       GALERIE
+       ===================================================== -->
+  <section class="galerie" aria-label="Galerie photos">
+    <div class="galerie__item">
+      <div class="img-placeholder" role="img" aria-label="Galette complète sur billig en fonte">gallery-1.jpg</div>
+    </div>
+    <div class="galerie__item">
+      <div class="img-placeholder" role="img" aria-label="Intérieur chaleureux de la crêperie">gallery-2.jpg</div>
+    </div>
+    <div class="galerie__item">
+      <div class="img-placeholder" role="img" aria-label="Crêpe sucrée caramel beurre salé">gallery-3.jpg</div>
+    </div>
+    <div class="galerie__item">
+      <div class="img-placeholder" role="img" aria-label="Cidre breton et galettes en terrasse">gallery-4.jpg</div>
+    </div>
+    <div class="galerie__item">
+      <div class="img-placeholder" role="img" aria-label="Détail des garnitures fraîches">gallery-5.jpg</div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       ÉQUIPE
+       ===================================================== -->
+  <section class="equipe" id="equipe" aria-label="Notre équipe">
+    <div class="equipe__watermark" aria-hidden="true">Équipe</div>
+    <div class="equipe__header">
+      <span class="equipe__kicker sr">L'équipe</span>
+      <h2 class="equipe__titre sr d1">Les visages de <em>la crêperie</em></h2>
+    </div>
+    <div class="equipe__grid">
+
+      <div class="equipe__card sr">
+        <div class="equipe__photo-wrap">
+          <div class="img-placeholder equipe__photo" role="img" aria-label="Marine, gérante et cheffe crêpier">equipe-marine.jpg</div>
+        </div>
+        <div class="equipe__info">
+          <span class="equipe__role">Gérante &amp; Cheffe crêpier</span>
+          <span class="equipe__nom">Marine</span>
+        </div>
+      </div>
+
+      <div class="equipe__card sr d1">
+        <div class="equipe__photo-wrap">
+          <div class="img-placeholder equipe__photo" role="img" aria-label="Pa-Gnia, serveuse">equipe-pagnia.jpg</div>
+        </div>
+        <div class="equipe__info">
+          <span class="equipe__role">Serveuse</span>
+          <span class="equipe__nom">Pa-Gnia</span>
+        </div>
+      </div>
+
+      <div class="equipe__card sr d2">
+        <div class="equipe__photo-wrap">
+          <div class="img-placeholder equipe__photo" role="img" aria-label="Sandy, serveuse">equipe-sandy.jpg</div>
+        </div>
+        <div class="equipe__info">
+          <span class="equipe__role">Serveuse</span>
+          <span class="equipe__nom">Sandy</span>
+        </div>
+      </div>
+
+      <div class="equipe__card sr d3">
+        <div class="equipe__photo-wrap">
+          <div class="img-placeholder equipe__photo" role="img" aria-label="Nathan, crêpier">equipe-nathan.jpg</div>
+        </div>
+        <div class="equipe__info">
+          <span class="equipe__role">Crêpier</span>
+          <span class="equipe__nom">Nathan</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =====================================================
+       AVIS CLIENTS
+       ===================================================== -->
+  <section class="avis" id="avis" aria-label="Avis clients">
+    <div class="avis__inner">
+
+      <div class="avis__score-col">
+        <span class="avis__kicker">Avis Google</span>
+        <div class="avis__note sr" aria-label="Note de 4,8 sur 5">4.8</div>
+        <div class="avis__etoiles" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <span class="avis__source">Sur Google Maps</span>
+      </div>
+
+      <div class="avis__grid">
+        <div class="avis__card sr">
+          <p class="avis__text">"Une vraie galette bretonne à Castres, c'est rare. La pâte est parfaite, le service attentionné. On y retourne chaque semaine depuis l'ouverture."</p>
+          <span class="avis__auteur">Claire D.</span>
+        </div>
+        <div class="avis__card sr d1">
+          <p class="avis__text">"Marine est passionnée et ça se sent dans chaque assiette. La suggestion du mois change régulièrement et vaut toujours le détour."</p>
+          <span class="avis__auteur">Thomas R.</span>
+        </div>
+        <div class="avis__card sr d2">
+          <p class="avis__text">"Cadre chaleureux, produits frais, prix honnêtes. Le cidre Val de Rance avec la Complète, c'est un accord parfait."</p>
+          <span class="avis__auteur">Nathalie B.</span>
+        </div>
+        <div class="avis__card sr d3">
+          <p class="avis__text">"La meilleure adresse déjeuner de Castres. L'Armelle (suggestion sucrée) est une merveille. On est clients fidèles depuis le premier jour."</p>
+          <span class="avis__auteur">Kevin M.</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =====================================================
+       CONTACT
+       ===================================================== -->
+  <section class="contact" id="contact" aria-label="Nous trouver">
+
+    <div class="contact__info">
+      <span class="contact__kicker sr">Nous trouver</span>
+      <h2 class="contact__titre sr d1">Venez nous <em>rendre visite</em></h2>
+      <ul class="contact__liste" role="list">
+        <li>
+          <div class="contact__item-label">Adresse</div>
+          <address class="contact__item-value">20 rue Henry le Châtelier<br>81100 Castres<br>(Hall de la Jardinerie Tarnaise)</address>
+        </li>
+        <li>
+          <div class="contact__item-label">Téléphone</div>
+          <div class="contact__item-value"><a href="tel:0634522900">06 34 52 29 00</a></div>
+        </li>
+        <li>
+          <div class="contact__item-label">Email</div>
+          <div class="contact__item-value"><a href="mailto:lapetite.creperie@hotmail.com">lapetite.creperie@hotmail.com</a></div>
+        </li>
+        <li>
+          <div class="contact__item-label">Horaires</div>
+          <div class="contact__item-value">Lun - Sam - 11h45 à 14h15<br>Fermé le dimanche</div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="contact__map">
+      <iframe
+        src="https://maps.google.com/maps?hl=fr&q=20+rue+Henry+le+Chatelier+81100+Castres&ie=UTF8&output=embed"
+        title="Localisation La Petite Crêperie - 20 rue Henry le Châtelier, Castres"
+        loading="lazy"
+        allowfullscreen
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+
+  </section>
+
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
+  <footer class="footer" aria-label="Pied de page">
+    <span class="footer__logo">La Petite Crêperie</span>
+    <ul class="footer__nav" role="list">
+      <li><a href="#histoire">Histoire</a></li>
+      <li><a href="#carte">La Carte</a></li>
+      <li><a href="#equipe">Équipe</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+    </ul>
+    <p class="footer__credit">Création <a href="#" rel="noopener noreferrer">AlcalSpark</a></p>
+  </footer>
+
+  <!-- =====================================================
+       NAVIGATION - VERSION BAS
+       ===================================================== -->
+  <nav class="nav-bas" id="nav-bas" aria-label="Navigation principale">
+    <span class="nav-bas__logo">La Petite Crêperie</span>
+    <ul class="nav-bas__links">
+      <li>
+        <a href="#hero" aria-label="Accueil">
+          <span class="nav-bas__icon">⌂</span>
+          <span class="nav-bas__label">Accueil</span>
+        </a>
+      </li>
+      <li>
+        <a href="#histoire" aria-label="Notre histoire">
+          <span class="nav-bas__icon">◎</span>
+          <span class="nav-bas__label">Histoire</span>
+        </a>
+      </li>
+      <li>
+        <a href="#carte" aria-label="La carte">
+          <span class="nav-bas__icon">◈</span>
+          <span class="nav-bas__label">La Carte</span>
+        </a>
+      </li>
+      <li>
+        <a href="#contact" aria-label="Contact">
+          <span class="nav-bas__icon">◉</span>
+          <span class="nav-bas__label">Contact</span>
+        </a>
+      </li>
+    </ul>
+    <a href="tel:0634522900" class="nav-bas__cta" aria-label="Appeler pour réserver">Réserver →</a>
+  </nav>
+
+  <script src="main.js"></script>
+</body>
+</html>
