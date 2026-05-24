@@ -37,11 +37,11 @@ a { text-decoration: none; color: inherit; }
 img {
   display: block;
   max-width: 100%;
-  filter: sepia(0.08) saturate(0.85);
+  filter: brightness(0.95);
   transition: filter 0.6s ease;
 }
 
-img:hover { filter: sepia(0) saturate(1); }
+img:hover { filter: none; }
 
 /* 3. GRAIN OVERLAY
    ---------------------------------------------------------- */
@@ -265,7 +265,7 @@ body.has-nav-bas { padding-bottom: 72px; }
   background-image: url('assets/imaeprinc.png');
   background-size: cover;
   background-position: center;
-  filter: saturate(0.82) brightness(0.68);
+  filter: saturate(1) brightness(0.78);
   transform: scale(1.06);
   transform-origin: center;
   will-change: transform;
@@ -402,7 +402,7 @@ body.has-nav-bas { padding-bottom: 72px; }
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--blanc);
-  opacity: 0.38;
+  opacity: 0.55;
   margin-bottom: 5px;
 }
 
@@ -449,15 +449,19 @@ body.has-nav-bas { padding-bottom: 72px; }
 
 .ruban__track {
   display: flex;
-  white-space: nowrap;
-  width: max-content;
   animation: marquee 22s linear infinite;
+  will-change: transform;
 }
 
 .ruban__track:hover { animation-play-state: paused; }
 
+.ruban__inner {
+  display: flex;
+  flex-shrink: 0;
+}
+
 .ruban__item {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 1.2rem;
   font-family: 'Fraunces', Georgia, serif;
@@ -466,6 +470,7 @@ body.has-nav-bas { padding-bottom: 72px; }
   font-size: 0.85rem;
   color: rgba(242, 232, 213, 0.72);
   padding: 0 1.2rem;
+  white-space: nowrap;
 }
 
 .ruban__sep {
@@ -827,7 +832,7 @@ body.has-nav-bas { padding-bottom: 72px; }
   font-style: italic;
   line-height: 1.52;
   color: var(--blanc);
-  opacity: 0.28;
+  opacity: 0.48;
 }
 
 .carte__plat-prix {
@@ -868,11 +873,9 @@ body.has-nav-bas { padding-bottom: 72px; }
   transition: transform 0.7s ease, filter 0.7s ease;
 }
 
-.galerie__item img { filter: sepia(0.08) saturate(0.85); }
-
 .galerie__item:hover img {
   transform: scale(1.08);
-  filter: sepia(0) saturate(1);
+  filter: none;
 }
 
 .galerie__item:hover .img-placeholder { transform: scale(1.08); }
@@ -943,6 +946,7 @@ body.has-nav-bas { padding-bottom: 72px; }
 .equipe__card { overflow: hidden; }
 
 .equipe__photo-wrap {
+  width: 100%;
   aspect-ratio: 2/3;
   overflow: hidden;
   position: relative;
@@ -965,23 +969,23 @@ body.has-nav-bas { padding-bottom: 72px; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(20%) sepia(0.08);
+  object-position: top;
+  display: block;
+  filter: brightness(0.95);
   transition: transform 0.5s ease, filter 0.5s ease;
 }
 
 .equipe__photo-wrap .img-placeholder {
-  filter: grayscale(20%) sepia(0.08);
-  transition: transform 0.5s ease, filter 0.5s ease;
+  transition: transform 0.5s ease;
 }
 
 .equipe__card:hover .equipe__photo {
   transform: scale(1.05);
-  filter: grayscale(0%) sepia(0);
+  filter: none;
 }
 
 .equipe__card:hover .equipe__photo-wrap .img-placeholder {
   transform: scale(1.05);
-  filter: grayscale(0%) sepia(0);
 }
 
 .equipe__info {
@@ -1194,7 +1198,7 @@ body.has-nav-bas { padding-bottom: 72px; }
   min-height: 460px;
   border: none;
   display: block;
-  filter: sepia(0.28) hue-rotate(12deg) saturate(0.68) brightness(0.94);
+  filter: sepia(0.12) hue-rotate(8deg) saturate(0.88) brightness(0.97);
 }
 
 /* ============================================================
