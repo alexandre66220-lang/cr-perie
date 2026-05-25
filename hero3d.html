@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sculpture angelique — expérience 3D interactive. Faites défiler pour explorer chaque face de l'oeuvre.">
+  <title>Angel Bust — Sculpture 3D</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300&family=Geist:wght@200;300;400&display=swap" rel="stylesheet">
+  <style>
+
+/* ── Reset & Variables ──────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #0c0b10;
+  --text:    #f4efe8;
+  --accent:  #c9b89a;
+  --muted:   rgba(244, 239, 232, 0.38);
+  --rim:     rgba(244, 239, 232, 0.06);
+}
+
+html { scroll-behavior: auto; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Geist', system-ui, sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ── Loader ─────────────────────────────────────────────── */
+.loader {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  transition: opacity 0.8s ease;
+}
+
+.loader.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loader__ring {
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(244, 239, 232, 0.12);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  margin-bottom: 22px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loader__label {
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── Scroll section ─────────────────────────────────────── */
+.scroll-section {
+  position: relative;
+  height: 400vh;
+}
+
+/* ── Sticky viewport ────────────────────────────────────── */
+.sticky-wrap {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ── Canvas ─────────────────────────────────────────────── */
+#canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Face texts (desktop) ───────────────────────────────── */
+.text-panel {
+  position: absolute;
+  right: 9%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(340px, 28vw);
+  height: 120px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Soft vignette so text stays readable over the 3D */
+.text-panel::before {
+  content: '';
+  position: absolute;
+  inset: -60px -32px;
+  background: radial-gradient(ellipse 120% 100% at 100% 50%,
+    rgba(12, 11, 16, 0.65) 0%,
+    transparent 70%);
+  pointer-events: none;
+}
+
+.face-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(1rem, 1.8vw, 1.5rem);
+  line-height: 1.55;
+  color: var(--text);
+  text-align: right;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  will-change: opacity;
+}
+
+/* ── Face nav dots (left) ───────────────────────────────── */
+.face-nav {
+  position: absolute;
+  left: 36px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  z-index: 10;
+}
+
+.face-nav__dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(244, 239, 232, 0.2);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.4s ease, height 0.4s ease, opacity 0.4s ease;
+}
+
+.face-nav__dot.active {
+  background: var(--accent);
+  height: 22px;
+}
+
+/* ── Scroll hint ────────────────────────────────────────── */
+.scroll-hint {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  z-index: 10;
+  transition: opacity 0.6s ease;
+}
+
+.scroll-hint.hidden { opacity: 0; pointer-events: none; }
+
+.scroll-hint__label {
+  font-size: 0.57rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.scroll-hint__line {
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  animation: hint-drop 1.9s ease-in-out infinite;
+  transform-origin: top;
+}
+
+@keyframes hint-drop {
+  0%, 100% { transform: scaleY(1); opacity: 0.9; }
+  50%       { transform: scaleY(0.55) translateY(10px); opacity: 0.4; }
+}
+
+/* ── Progress arc (top-right corner) ───────────────────── */
+.progress-ring {
+  position: absolute;
+  top: 32px;
+  right: 36px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.progress-ring__track,
+.progress-ring__fill {
+  fill: none;
+  stroke-width: 1.2;
+  transform-origin: 20px 20px;
+}
+
+.progress-ring__track { stroke: rgba(244, 239, 232, 0.08); }
+.progress-ring__fill  {
+  stroke: var(--accent);
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+/* ── Mobile texts ───────────────────────────────────────── */
+.mobile-texts {
+  display: none;
+  flex-direction: column;
+  background: var(--bg);
+  border-top: 1px solid var(--rim);
+}
+
+.mobile-texts__item {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding: 36px 28px;
+  border-bottom: 1px solid var(--rim);
+}
+
+.mobile-texts__num {
+  font-size: 0.52rem;
+  letter-spacing: 0.28em;
+  color: var(--accent);
+  opacity: 0.65;
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+
+.mobile-texts__phrase {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: 1.25rem;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 1023px) {
+  .scroll-section { height: auto; }
+
+  .sticky-wrap {
+    position: relative;
+    height: min(75vw, 56vh);
+  }
+
+  .text-panel  { display: none; }
+  .face-nav    { display: none; }
+  .scroll-hint { display: none; }
+  .progress-ring { display: none; }
+
+  .mobile-texts { display: flex; }
+}
+
+@media (min-width: 1024px) {
+  .mobile-texts { display: none; }
+}
+
+  </style>
+</head>
+<body>
+
+<!-- Loader ─────────────────────────────────── -->
+<div class="loader" id="loader">
+  <div class="loader__ring"></div>
+  <p class="loader__label">Chargement</p>
+</div>
+
+<!-- Hero scroll section ─────────────────────── -->
+<section class="scroll-section" id="scroll-section">
+  <div class="sticky-wrap" id="sticky-wrap">
+
+    <canvas id="canvas"></canvas>
+
+    <!-- Face texts (desktop right) -->
+    <aside class="text-panel">
+      <p class="face-text" id="face-0">Façonné dans la lumière</p>
+      <p class="face-text" id="face-1">Chaque détail raconte une histoire</p>
+      <p class="face-text" id="face-2">L'art prend vie entre vos mains</p>
+      <p class="face-text" id="face-3">Une oeuvre, une émotion</p>
+    </aside>
+
+    <!-- Face dots (desktop left) -->
+    <nav class="face-nav" aria-label="Navigation par face">
+      <button class="face-nav__dot active" data-face="0" aria-label="Face 1"></button>
+      <button class="face-nav__dot"        data-face="1" aria-label="Face 2"></button>
+      <button class="face-nav__dot"        data-face="2" aria-label="Face 3"></button>
+      <button class="face-nav__dot"        data-face="3" aria-label="Face 4"></button>
+    </nav>
+
+    <!-- Progress ring -->
+    <svg class="progress-ring" width="40" height="40" viewBox="0 0 40 40" aria-hidden="true">
+      <circle class="progress-ring__track" cx="20" cy="20" r="17"/>
+      <circle class="progress-ring__fill"  cx="20" cy="20" r="17"
+              id="progress-fill"
+              stroke-dasharray="106.8"
+              stroke-dashoffset="106.8"/>
+    </svg>
+
+    <!-- Scroll hint -->
+    <div class="scroll-hint" id="scroll-hint" aria-hidden="true">
+      <span class="scroll-hint__label">Défiler pour explorer</span>
+      <div class="scroll-hint__line"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Mobile: static texts ────────────────────── -->
+<section class="mobile-texts" aria-label="Les quatre faces de la sculpture">
+  <div class="mobile-texts__item">
+    <span class="mobile-texts__num">01</span>
+    <p class="mobile-texts__phrase">Façonné dans la lumière</p>
+  </div>
+  <div class="mobile-texts__item">
+    <span class="mobile-texts__num">02</span>
+    <p class="mobile-texts__phrase">Chaque détail raconte une histoire</p>
+  </div>
+  <div class="mobile-texts__item">
+    <span class="mobile-texts__num">03</span>
+    <p class="mobile-texts__phrase">L'art prend vie entre vos mains</p>
+  </div>
+  <div class="mobile-texts__item">
+    <span class="mobile-texts__num">04</span>
+    <p class="mobile-texts__phrase">Une oeuvre, une émotion</p>
+  </div>
+</section>
+
+<!-- Three.js via ESM importmap ──────────────── -->
+<script type="importmap">
+{
+  "imports": {
+    "three":          "https://cdn.jsdelivr.net/npm/three@0.166.0/build/three.module.js",
+    "three/addons/":  "https://cdn.jsdelivr.net/npm/three@0.166.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module" src="hero3d.js"></script>
+
+</body>
+</html>
