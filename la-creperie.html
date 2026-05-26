@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Découvrez La Petite Crêperie de Castres — son histoire, ses valeurs et l'équipe passionnée qui vous accueille chaque jour.">
+  <title>La Crêperie — La Petite Crêperie, Castres</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+/* ── Reset & Variables ─────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green:       #3d6b4f;
+  --green-light: #4e8464;
+  --terra:       #c4714a;
+  --cream:       #f5f0e8;
+  --cream-light: #faf8f4;
+  --dark:        #1a1a1a;
+  --mid:         #4a4a4a;
+  --muted:       #888;
+  --font-serif:  'Playfair Display', Georgia, serif;
+  --font-sans:   'Inter', system-ui, sans-serif;
+  --nav-h:       68px;
+  --ease:        cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream-light);
+  color: var(--dark);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  animation: page-enter 0.4s ease;
+}
+@keyframes page-enter { from { opacity: 0; } to { opacity: 1; } }
+
+img { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+
+/* ── Grain ─────────────────────────────────────────── */
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.028;
+  mix-blend-mode: multiply;
+}
+.grain svg { width: 100%; height: 100%; }
+
+/* ── Navbar ────────────────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  z-index: 100;
+  transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.nav.scrolled {
+  background: rgba(250, 248, 244, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+}
+.nav__logo {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: #fff;
+  transition: color 0.4s ease;
+  letter-spacing: 0.01em;
+}
+.nav.scrolled .nav__logo { color: var(--dark); }
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  list-style: none;
+}
+.nav__links a {
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.82);
+  transition: color 0.3s ease;
+  position: relative;
+}
+.nav.scrolled .nav__links a { color: var(--mid); }
+.nav__links a:hover,
+.nav__links a.active { color: var(--terra) !important; }
+.nav__links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0; right: 0;
+  height: 1px;
+  background: rgba(255,255,255,0.6);
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+}
+.nav.scrolled .nav__links a::after { background: var(--terra); }
+.nav__links a:hover::after,
+.nav__links a.active::after { transform: scaleX(1); }
+
+.nav__cta {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  padding: 10px 22px;
+  border-radius: 100px;
+  background: var(--terra);
+  color: #fff;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.nav__cta:hover { background: #b5623d; transform: translateY(-1px); }
+
+.nav__burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+  background: none;
+  border: none;
+}
+.nav__burger span {
+  display: block;
+  width: 24px;
+  height: 1.5px;
+  background: #fff;
+  transition: background 0.4s ease, transform 0.3s ease, opacity 0.3s ease;
+  border-radius: 2px;
+}
+.nav.scrolled .nav__burger span { background: var(--dark); }
+.nav__burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav__burger.open span:nth-child(2) { opacity: 0; }
+.nav__burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.nav__drawer {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--cream-light);
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.nav__drawer.open { opacity: 1; pointer-events: all; }
+.nav__drawer a {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--dark);
+}
+.nav__drawer a:hover { color: var(--terra); }
+.nav__drawer .drawer__cta {
+  margin-top: 12px;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 14px 32px;
+  border-radius: 100px;
+  background: var(--terra);
+  color: #fff;
+}
+
+/* ── Page Hero ─────────────────────────────────────── */
+.page-hero {
+  position: relative;
+  height: 60vh;
+  min-height: 400px;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 64px;
+  overflow: hidden;
+}
+.page-hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.page-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.18) 60%, transparent 100%);
+}
+.page-hero__content {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  padding: 0 24px;
+}
+.page-hero__eyebrow {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 14px;
+}
+.page-hero__title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.1;
+}
+
+/* ── Shared section helpers ────────────────────────── */
+.section-eyebrow {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 18px;
+}
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--dark);
+  margin-bottom: 28px;
+}
+.section-title em { font-style: italic; color: var(--green); }
+.section-body {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--mid);
+  margin-bottom: 18px;
+}
+
+/* ── Section Histoire ──────────────────────────────── */
+.section-histoire {
+  background: var(--cream);
+  padding: 120px 48px;
+}
+.histoire-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.histoire-text {}
+.histoire-divider {
+  width: 40px;
+  height: 1px;
+  background: var(--terra);
+  opacity: 0.5;
+  margin: 30px 0;
+}
+.histoire-visual {
+  position: relative;
+}
+.histoire-photo {
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 4px;
+}
+.histoire-photo-placeholder {
+  width: 100%;
+  aspect-ratio: 4/5;
+  background: var(--green);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.histoire-photo-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Section Valeurs ───────────────────────────────── */
+.section-valeurs {
+  background: var(--green);
+  padding: 100px 48px;
+  position: relative;
+  overflow: hidden;
+}
+.section-valeurs::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+.valeurs-header {
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto 72px;
+}
+.valeurs-header .section-eyebrow { color: rgba(255,255,255,0.5); }
+.valeurs-header .section-title { color: #fff; }
+.valeurs-header .section-title em { color: #f5d9c4; }
+
+.valeurs-grid {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+.valeur-card {
+  background: rgba(255,255,255,0.07);
+  padding: 48px 36px;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+.valeur-card:hover { background: rgba(255,255,255,0.12); }
+
+.valeur-icon {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 24px;
+  color: rgba(255,255,255,0.65);
+}
+.valeur-title {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: #fff;
+  margin-bottom: 14px;
+  line-height: 1.25;
+}
+.valeur-body {
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.65);
+}
+
+/* ── Section Équipe ────────────────────────────────── */
+.section-equipe {
+  background: var(--cream-light);
+  padding: 120px 48px;
+}
+.equipe-header {
+  text-align: center;
+  max-width: 520px;
+  margin: 0 auto 72px;
+}
+.equipe-grid {
+  max-width: 760px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+}
+.equipe-member {}
+.equipe-photo-wrap {
+  width: 100%;
+  aspect-ratio: 3/4;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  background: var(--terra);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.equipe-photo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.equipe-initiale {
+  font-family: var(--font-serif);
+  font-size: 5rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.2);
+  line-height: 1;
+}
+.equipe-name {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--dark);
+  margin-bottom: 4px;
+}
+.equipe-role {
+  font-size: 0.82rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+/* ── Scroll reveal ─────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal[data-delay="1"] { transition-delay: 0.1s; }
+.reveal[data-delay="2"] { transition-delay: 0.2s; }
+.reveal[data-delay="3"] { transition-delay: 0.3s; }
+
+/* ── Footer ────────────────────────────────────────── */
+.footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.55);
+  padding: 80px 48px 48px;
+}
+.footer-inner { max-width: 1080px; margin: 0 auto; }
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr;
+  gap: 60px;
+  padding-bottom: 60px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.footer-brand .footer-logo {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #fff;
+  display: block;
+  margin-bottom: 16px;
+}
+.footer-brand p { font-size: 0.83rem; line-height: 1.7; max-width: 220px; }
+.footer-col h4 {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 20px;
+}
+.footer-col ul { list-style: none; }
+.footer-col ul li + li { margin-top: 10px; }
+.footer-col ul li a { font-size: 0.88rem; color: rgba(255,255,255,0.55); transition: color 0.2s ease; }
+.footer-col ul li a:hover,
+.footer-col ul li span { font-size: 0.88rem; color: rgba(255,255,255,0.55); }
+.footer-col ul li a:hover { color: #fff; }
+.footer-address { font-size: 0.88rem; line-height: 1.8; font-style: normal; }
+.footer-address a { color: var(--terra); transition: color 0.2s ease; }
+.footer-address a:hover { color: #d4825a; }
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 36px;
+  font-size: 0.78rem;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-bottom a { transition: color 0.2s ease; }
+.footer-bottom a:hover { color: rgba(255,255,255,0.8); }
+
+/* ── Responsive ────────────────────────────────────── */
+@media (max-width: 1023px) {
+  .nav { padding: 0 24px; }
+  .nav__links { display: none; }
+  .nav__cta { display: none; }
+  .nav__burger { display: flex; }
+
+  .section-histoire,
+  .section-valeurs,
+  .section-equipe { padding: 80px 24px; }
+
+  .histoire-inner { grid-template-columns: 1fr; gap: 48px; }
+  .valeurs-grid { grid-template-columns: 1fr; gap: 2px; }
+  .equipe-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .footer { padding: 60px 24px 40px; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 600px) {
+  .footer-top { grid-template-columns: 1fr; }
+  .equipe-grid { grid-template-columns: 1fr; max-width: 320px; margin-left: auto; margin-right: auto; }
+  .page-hero { height: 50vh; }
+}
+  </style>
+</head>
+<body>
+
+<!-- Grain ──────────────────────────────────────────── -->
+<div class="grain" aria-hidden="true">
+  <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none">
+    <filter id="g" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="n"/>
+      <feColorMatrix type="saturate" values="0" in="n"/>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#g)"/>
+  </svg>
+</div>
+
+<!-- Navbar ─────────────────────────────────────────── -->
+<nav class="nav" id="nav" aria-label="Navigation principale">
+  <a href="index.html" class="nav__logo">La Petite Crêperie</a>
+
+  <ul class="nav__links">
+    <li><a href="la-creperie.html">La Crêperie</a></li>
+    <li><a href="carte.html">La Carte</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+
+  <a href="tel:0634522900" class="nav__cta" aria-label="Appeler le 06 34 52 29 00">06 34 52 29 00</a>
+
+  <button class="nav__burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+
+<!-- Drawer ─────────────────────────────────────────── -->
+<div class="nav__drawer" id="drawer" role="dialog" aria-label="Menu de navigation">
+  <a href="la-creperie.html" class="drawer__link">La Crêperie</a>
+  <a href="carte.html" class="drawer__link">La Carte</a>
+  <a href="contact.html" class="drawer__link">Contact</a>
+  <a href="tel:0634522900" class="drawer__cta">06 34 52 29 00</a>
+</div>
+
+<!-- Hero ───────────────────────────────────────────── -->
+<header class="page-hero" aria-label="La Crêperie">
+  <img
+    class="page-hero__bg"
+    src="https://static.wixstatic.com/media/7ada0c_89260d56ec9644c7a5787530552d5a7d~mv2.jpg"
+    alt="Intérieur de La Petite Crêperie"
+    fetchpriority="high"
+  >
+  <div class="page-hero__overlay" aria-hidden="true"></div>
+  <div class="page-hero__content">
+    <p class="page-hero__eyebrow">Castres, Tarn</p>
+    <h1 class="page-hero__title">La Crêperie</h1>
+  </div>
+</header>
+
+<!-- Section Histoire ───────────────────────────────── -->
+<section class="section-histoire" id="histoire" aria-label="Notre histoire">
+  <div class="histoire-inner">
+
+    <div class="histoire-text">
+      <span class="section-eyebrow reveal">Notre histoire</span>
+      <h2 class="section-title reveal" data-delay="1">
+        Une crêperie<br><em>comme on les aime</em>
+      </h2>
+      <p class="section-body reveal" data-delay="2">
+        Ouverte début 2023, La Petite Crêperie vous accueille dans un cadre chaleureux
+        et moderne pour déguster des galettes et des crêpes soigneusement confectionnées
+        avec des produits frais et locaux de qualité.
+      </p>
+      <p class="section-body reveal" data-delay="2">
+        L'objectif est de redorer l'image de la crêperie en apportant gourmandise,
+        modernité et fraîcheur tout en proposant des classiques indémodables. Chaque
+        assiette est une invitation à voyager en Bretagne, sans quitter le Tarn.
+      </p>
+      <div class="histoire-divider reveal" data-delay="3"></div>
+      <p class="section-body reveal" data-delay="3" style="font-style:italic; color:var(--green)">
+        « Fait maison, avec amour, chaque matin. »
+      </p>
+    </div>
+
+    <div class="histoire-visual reveal" data-delay="1">
+      <div class="histoire-photo-placeholder">
+        <img
+          src="https://static.wixstatic.com/media/7ada0c_89260d56ec9644c7a5787530552d5a7d~mv2.jpg"
+          alt="La Petite Crêperie, intérieur"
+          loading="lazy"
+        >
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Section Valeurs ────────────────────────────────── -->
+<section class="section-valeurs" id="valeurs" aria-label="Nos valeurs">
+  <div class="valeurs-header reveal">
+    <span class="section-eyebrow">Ce qui nous guide</span>
+    <h2 class="section-title">Nos <em>valeurs</em></h2>
+  </div>
+
+  <div class="valeurs-grid">
+
+    <article class="valeur-card reveal" data-delay="1">
+      <svg class="valeur-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M22 7c0 0-10 9-10 17a10 10 0 0020 0C32 16 22 7 22 7z"/>
+        <path d="M22 26v6"/>
+      </svg>
+      <h3 class="valeur-title">Produits locaux</h3>
+      <p class="valeur-body">
+        Farine de blé noir bio bretonne, légumes frais du marché, fromages régionaux.
+        Nous privilégions le circuit court et les producteurs de confiance pour des
+        assiettes vivantes, ancrées dans leur terroir.
+      </p>
+    </article>
+
+    <article class="valeur-card reveal" data-delay="2">
+      <svg class="valeur-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="10" y="18" width="24" height="16" rx="2"/>
+        <path d="M10 22h24M22 18v-6M16 12c0-3 3-5 6-5s6 2 6 5"/>
+      </svg>
+      <h3 class="valeur-title">Fait maison</h3>
+      <p class="valeur-body">
+        Toutes nos préparations sont réalisées maison, le matin même. Les pâtes
+        reposent la nuit pour exprimer toute leur saveur. Chaque galette est
+        assemblée et cuite à la minute, devant vous.
+      </p>
+    </article>
+
+    <article class="valeur-card reveal" data-delay="3">
+      <svg class="valeur-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M22 36s-14-8-14-18a14 14 0 0128 0C36 28 22 36 22 36z"/>
+        <circle cx="22" cy="18" r="4"/>
+      </svg>
+      <h3 class="valeur-title">Partage</h3>
+      <p class="valeur-body">
+        En famille, entre amis ou entre collègues, pour les petits comme pour les
+        grands — La Petite Crêperie est un endroit où l'on se retrouve, où l'on
+        prend le temps, où l'on repart le sourire aux lèvres.
+      </p>
+    </article>
+
+  </div>
+</section>
+
+<!-- Section Équipe ─────────────────────────────────── -->
+<section class="section-equipe" id="equipe" aria-label="Notre équipe">
+  <div class="equipe-header reveal">
+    <span class="section-eyebrow">Les visages de la maison</span>
+    <h2 class="section-title">Notre <em>équipe</em></h2>
+    <p class="section-body" style="text-align:center; max-width:440px; margin:0 auto">
+      Une équipe passionnée qui met tout son savoir-faire pour vous proposer
+      des crêpes et galettes d'exception.
+    </p>
+  </div>
+
+  <div class="equipe-grid">
+
+    <div class="equipe-member reveal" data-delay="1">
+      <div class="equipe-photo-wrap" aria-label="Marine, gérante">
+        <span class="equipe-initiale">M</span>
+      </div>
+      <p class="equipe-name">Marine</p>
+      <p class="equipe-role">Gérante &amp; cheffe crêpière</p>
+    </div>
+
+    <div class="equipe-member reveal" data-delay="2">
+      <div class="equipe-photo-wrap" aria-label="Pa-Gnia, serveuse">
+        <span class="equipe-initiale">P</span>
+      </div>
+      <p class="equipe-name">Pa-Gnia</p>
+      <p class="equipe-role">Serveuse</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- Footer ─────────────────────────────────────────── -->
+<footer class="footer" aria-label="Pied de page">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">La Petite Crêperie</a>
+        <p>Galettes bretonnes et crêpes maison au cœur de Castres, depuis 2023.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="la-creperie.html">La Crêperie</a></li>
+          <li><a href="carte.html">La Carte</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="mentions-legales.html">Mentions légales</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Horaires</h4>
+        <ul>
+          <li><span>Mar – Ven : 12h – 14h</span></li>
+          <li><span>Mar – Sam : 19h – 22h</span></li>
+          <li><span>Dim : 12h – 14h30</span></li>
+          <li><span>Lundi : fermé</span></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <address class="footer-address">
+          20 rue Henry le Châtelier<br>
+          81100 Castres<br><br>
+          <a href="tel:0634522900">06 34 52 29 00</a><br>
+          <a href="mailto:lapetite.creperie@hotmail.com">lapetite.creperie@hotmail.com</a>
+        </address>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 La Petite Crêperie. Tous droits réservés.</p>
+      <p>Création <a href="#" rel="noopener noreferrer">AlcalSpark</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // ── Navbar ─────────────────────────────────────────
+  const nav    = document.getElementById('nav');
+  const burger = document.getElementById('burger');
+  const drawer = document.getElementById('drawer');
+
+  function updateNav() { nav.classList.toggle('scrolled', window.scrollY > 20); }
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+
+  burger.addEventListener('click', () => {
+    const open = burger.classList.toggle('open');
+    drawer.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  drawer.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      burger.classList.remove('open');
+      drawer.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // ── IntersectionObserver ───────────────────────────
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── Page transitions ────────────────────────────────
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href]');
+    if (!a) return;
+    const href = a.getAttribute('href');
+    if (!href || href === '#' || href.startsWith('#') || href.startsWith('tel:') || href.startsWith('mailto:') || a.target === '_blank') return;
+    e.preventDefault();
+    document.body.style.transition = 'opacity 0.32s ease';
+    document.body.style.opacity    = '0';
+    setTimeout(() => { window.location.href = href; }, 340);
+  });
+
+  // ── Active nav link ─────────────────────────────────
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav__links a, .nav__drawer a').forEach(a => {
+    const aHref = a.getAttribute('href');
+    if (aHref && aHref !== '#' && aHref === currentPage) a.classList.add('active');
+  });
+})();
+</script>
+
+</body>
+</html>
