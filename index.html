@@ -3,433 +3,1169 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="La Petite Crêperie - Galettes bretonnes au sarrasin bio et crêpes sucrées artisanales à Castres (Tarn). Produits locaux, fait maison, circuit court. Ouvert lundi-samedi 11h45-14h15.">
-  <title>La Petite Crêperie - Galettes &amp; Crêpes artisanales à Castres</title>
+  <meta name="description" content="La Petite Crêperie — Galettes bretonnes et crêpes maison à Castres. Produits frais, ambiance chaleureuse, saveurs authentiques.">
+  <title>La Petite Crêperie — Castres</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300&family=Geist:wght@200;300;400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+/* ── Reset & Variables ─────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green:       #3d6b4f;
+  --green-light: #4e8464;
+  --terra:       #c4714a;
+  --cream:       #f5f0e8;
+  --cream-light: #faf8f4;
+  --dark:        #1a1a1a;
+  --mid:         #4a4a4a;
+  --muted:       #888;
+
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans:  'Inter', system-ui, sans-serif;
+
+  --nav-h: 68px;
+  --ease:  cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream-light);
+  color: var(--dark);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+
+/* ── Grain ─────────────────────────────────────────── */
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.028;
+  mix-blend-mode: multiply;
+}
+.grain svg { width: 100%; height: 100%; }
+
+/* ── Navbar ────────────────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  z-index: 100;
+  transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+
+.nav.scrolled {
+  background: rgba(250, 248, 244, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+}
+
+.nav__logo {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: #fff;
+  transition: color 0.4s ease;
+  letter-spacing: 0.01em;
+}
+.nav.scrolled .nav__logo { color: var(--dark); }
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  list-style: none;
+}
+
+.nav__links a {
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.82);
+  transition: color 0.3s ease;
+}
+.nav.scrolled .nav__links a { color: var(--mid); }
+.nav__links a:hover { color: var(--terra) !important; }
+
+.nav__cta {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  padding: 10px 22px;
+  border-radius: 100px;
+  background: var(--terra);
+  color: #fff;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.nav__cta:hover { background: #b5623d; transform: translateY(-1px); }
+
+/* Burger */
+.nav__burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+  background: none;
+  border: none;
+}
+.nav__burger span {
+  display: block;
+  width: 24px;
+  height: 1.5px;
+  background: #fff;
+  transition: background 0.4s ease, transform 0.3s ease, opacity 0.3s ease;
+  border-radius: 2px;
+}
+.nav.scrolled .nav__burger span { background: var(--dark); }
+.nav__burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav__burger.open span:nth-child(2) { opacity: 0; }
+.nav__burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* Mobile menu drawer */
+.nav__drawer {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--cream-light);
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.nav__drawer.open { opacity: 1; pointer-events: all; }
+.nav__drawer a {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--dark);
+}
+.nav__drawer a:hover { color: var(--terra); }
+.nav__drawer .drawer__cta {
+  margin-top: 12px;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 14px 32px;
+  border-radius: 100px;
+  background: var(--terra);
+  color: #fff;
+}
+
+/* ── Hero scroll section ───────────────────────────── */
+.hero-section {
+  position: relative;
+  height: 500vh;
+}
+
+.hero-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Video */
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Dark overlay over video */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.38) 0%,
+    rgba(0,0,0,0.28) 50%,
+    rgba(0,0,0,0.52) 100%
+  );
+}
+
+/* Text phases container */
+.hero-texts {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 24px;
+  pointer-events: none;
+}
+
+.hero-phase {
+  position: absolute;
+  width: 100%;
+  padding: 0 24px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  will-change: opacity, transform;
+}
+
+.hero-phase.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-phase__eyebrow {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 20px;
+}
+
+.hero-phase__title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.6rem, 6vw, 5.2rem);
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.18;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.hero-phase__title em {
+  font-style: italic;
+  color: #f5d9c4;
+}
+
+.hero-phase__sub {
+  margin-top: 20px;
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  font-weight: 300;
+  color: rgba(255,255,255,0.72);
+  max-width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.65;
+}
+
+/* CTA — appears at 80% scroll */
+.hero-cta {
+  position: absolute;
+  bottom: 52px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  opacity: 0;
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.hero-cta.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+.hero-cta__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 36px;
+  border-radius: 100px;
+  background: var(--terra);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+.hero-cta__btn:hover { background: #b5623d; transform: scale(1.02); }
+
+/* Progress bar */
+.hero-progress {
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 2px;
+  background: var(--terra);
+  width: 0%;
+  transition: width 0.1s linear;
+  z-index: 10;
+}
+
+/* Scroll hint */
+.hero-hint {
+  position: absolute;
+  bottom: 52px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: opacity 0.5s ease;
+}
+.hero-hint.hidden { opacity: 0; pointer-events: none; }
+.hero-hint__label {
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+.hero-hint__line {
+  width: 1px;
+  height: 42px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.55), transparent);
+  animation: hint-drop 2s ease-in-out infinite;
+  transform-origin: top;
+}
+@keyframes hint-drop {
+  0%, 100% { transform: scaleY(1); opacity: 0.8; }
+  50%       { transform: scaleY(0.5) translateY(8px); opacity: 0.3; }
+}
+
+/* ── Section — Présentation ────────────────────────── */
+.section-presentation {
+  background: var(--cream);
+  padding: 120px 48px;
+}
+
+.presentation-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.presentation-visual {
+  position: relative;
+}
+
+.presentation-placeholder {
+  aspect-ratio: 4/5;
+  background: var(--green);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.presentation-placeholder span {
+  font-family: var(--font-serif);
+  font-size: 4rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.22);
+  letter-spacing: 0.08em;
+}
+
+.presentation-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.presentation-tag {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  background: var(--terra);
+  color: #fff;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  padding: 14px 22px;
+  border-radius: 4px;
+  line-height: 1.4;
+  box-shadow: 0 8px 28px rgba(196,113,74,0.25);
+}
+
+.section-eyebrow {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--dark);
+  margin-bottom: 28px;
+}
+
+.section-title em { font-style: italic; color: var(--green); }
+
+.section-body {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--mid);
+  margin-bottom: 20px;
+}
+
+.section-divider {
+  width: 40px;
+  height: 1px;
+  background: var(--terra);
+  margin: 32px 0;
+  opacity: 0.5;
+}
+
+.info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.info-list li {
+  list-style: none;
+  font-size: 0.88rem;
+  color: var(--mid);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.info-list li::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--terra);
+  flex-shrink: 0;
+}
+
+/* ── Section — Points forts ────────────────────────── */
+.section-forts {
+  background: var(--cream-light);
+  padding: 120px 48px;
+}
+
+.section-forts .section-header {
+  text-align: center;
+  max-width: 540px;
+  margin: 0 auto 72px;
+}
+
+.cards-grid {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.card {
+  background: var(--cream);
+  border-radius: 6px;
+  padding: 48px 36px;
+  border: 1px solid transparent;
+  transition: border-color 0.4s ease, transform 0.4s var(--ease), box-shadow 0.4s ease;
+}
+
+.card:hover {
+  border-color: var(--terra);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(196,113,74,0.08);
+}
+
+.card__icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 28px;
+  color: var(--green);
+}
+
+.card__title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--dark);
+  margin-bottom: 14px;
+  line-height: 1.25;
+}
+
+.card__body {
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: var(--mid);
+}
+
+/* ── Section — CTA réservation ─────────────────────── */
+.section-reservation {
+  background: var(--green);
+  padding: 120px 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.section-reservation::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+
+.reservation-inner {
+  position: relative;
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.reservation-inner .section-eyebrow { color: rgba(255,255,255,0.55); }
+
+.reservation-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.reservation-title em { font-style: italic; color: #f5d9c4; }
+
+.reservation-body {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.72);
+  margin-bottom: 48px;
+}
+
+.reservation-divider {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(245,217,196,0.7), transparent);
+  margin: 0 auto 40px;
+}
+
+.reservation-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 36px;
+  border-radius: 100px;
+  background: var(--terra);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-primary:hover {
+  background: #b5623d;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(196,113,74,0.35);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 36px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.88);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  transition: border-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+}
+.btn-ghost:hover {
+  border-color: rgba(255,255,255,0.7);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.reservation-contact {
+  margin-top: 40px;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.45);
+}
+
+.reservation-contact a {
+  color: rgba(255,255,255,0.65);
+  transition: color 0.2s ease;
+}
+.reservation-contact a:hover { color: #f5d9c4; }
+
+/* ── Footer ────────────────────────────────────────── */
+.footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.55);
+  padding: 80px 48px 48px;
+}
+
+.footer-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr;
+  gap: 60px;
+  padding-bottom: 60px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.footer-brand .footer-logo {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #fff;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.footer-brand p {
+  font-size: 0.83rem;
+  line-height: 1.7;
+  max-width: 220px;
+}
+
+.footer-col h4 {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 20px;
+}
+
+.footer-col ul { list-style: none; }
+.footer-col ul li + li { margin-top: 10px; }
+
+.footer-col ul li a {
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.55);
+  transition: color 0.2s ease;
+}
+.footer-col ul li a:hover { color: #fff; }
+
+.footer-address {
+  font-size: 0.88rem;
+  line-height: 1.8;
+  font-style: normal;
+}
+
+.footer-address a {
+  color: var(--terra);
+  transition: color 0.2s ease;
+}
+.footer-address a:hover { color: #d4825a; }
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 36px;
+  font-size: 0.78rem;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-bottom a { transition: color 0.2s ease; }
+.footer-bottom a:hover { color: rgba(255,255,255,0.8); }
+
+/* ── Scroll reveal ─────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal[data-delay="1"] { transition-delay: 0.1s; }
+.reveal[data-delay="2"] { transition-delay: 0.2s; }
+.reveal[data-delay="3"] { transition-delay: 0.3s; }
+
+/* ── Responsive ────────────────────────────────────── */
+@media (max-width: 1023px) {
+  .nav { padding: 0 24px; }
+  .nav__links { display: none; }
+  .nav__cta { display: none; }
+  .nav__burger { display: flex; }
+
+  .hero-phase__title { font-size: clamp(2rem, 8vw, 3.2rem); }
+
+  .section-presentation,
+  .section-forts,
+  .section-reservation { padding: 80px 24px; }
+
+  .presentation-inner {
+    grid-template-columns: 1fr;
+    gap: 52px;
+  }
+
+  .presentation-tag { right: 12px; bottom: -16px; }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .footer { padding: 60px 24px 40px; }
+
+  .footer-bottom { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 600px) {
+  .footer-top { grid-template-columns: 1fr; }
+  .cards-grid { gap: 16px; }
+  .card { padding: 36px 28px; }
+  .reservation-actions { flex-direction: column; width: 100%; }
+  .btn-primary, .btn-ghost { width: 100%; justify-content: center; }
+}
+
+/* ── Mobile: video autoplay, no scroll-drive ───────── */
+@media (max-width: 1023px) {
+  .hero-section { height: auto; }
+  .hero-sticky {
+    position: relative;
+    height: 100svh;
+    min-height: 560px;
+  }
+  .hero-progress { display: none; }
+  .hero-hint { display: none; }
+}
+  </style>
 </head>
 <body>
 
-  <!-- Grain overlay (SVG feTurbulence inline) -->
-  <div class="grain" aria-hidden="true">
-    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none">
-      <filter id="grain-filter" x="0%" y="0%" width="100%" height="100%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="noise"/>
-        <feColorMatrix type="saturate" values="0" in="noise"/>
-      </filter>
-      <rect width="100%" height="100%" filter="url(#grain-filter)"/>
-    </svg>
+<!-- Grain overlay ──────────────────────────────────── -->
+<div class="grain" aria-hidden="true">
+  <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none">
+    <filter id="g" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="n"/>
+      <feColorMatrix type="saturate" values="0" in="n"/>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#g)"/>
+  </svg>
+</div>
+
+<!-- Navbar ─────────────────────────────────────────── -->
+<nav class="nav" id="nav" aria-label="Navigation principale">
+  <a href="#" class="nav__logo">La Petite Crêperie</a>
+
+  <ul class="nav__links">
+    <li><a href="#presentation">Notre histoire</a></li>
+    <li><a href="#forts">L'esprit</a></li>
+    <li><a href="#reservation">Réserver</a></li>
+  </ul>
+
+  <a href="tel:0634522900" class="nav__cta" aria-label="Appeler le 06 34 52 29 00">06 34 52 29 00</a>
+
+  <button class="nav__burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+
+<!-- Mobile drawer ──────────────────────────────────── -->
+<div class="nav__drawer" id="drawer" role="dialog" aria-label="Menu de navigation">
+  <a href="#presentation" class="drawer__link">Notre histoire</a>
+  <a href="#forts" class="drawer__link">L'esprit</a>
+  <a href="#reservation" class="drawer__link">Réserver</a>
+  <a href="tel:0634522900" class="drawer__cta">06 34 52 29 00</a>
+</div>
+
+<!-- ── Section 1 — Hero scroll-driven video ────────── -->
+<section class="hero-section" id="hero-section" aria-label="Hero">
+  <div class="hero-sticky" id="hero-sticky">
+
+    <video
+      class="hero-video"
+      id="hero-video"
+      src="hero-video.mp4"
+      muted
+      playsinline
+      preload="auto"
+      aria-hidden="true"
+    ></video>
+
+    <div class="hero-overlay" aria-hidden="true"></div>
+
+    <!-- Text phases -->
+    <div class="hero-texts" aria-live="polite">
+
+      <div class="hero-phase" id="phase-0" role="text">
+        <span class="hero-phase__eyebrow">Castres, Tarn</span>
+        <h1 class="hero-phase__title">Fait maison,<br><em>avec amour</em></h1>
+        <p class="hero-phase__sub">Des galettes et crêpes préparées chaque matin, avec des produits soigneusement choisis.</p>
+      </div>
+
+      <div class="hero-phase" id="phase-1" role="text">
+        <span class="hero-phase__eyebrow">Notre savoir-faire</span>
+        <h2 class="hero-phase__title">La Bretagne<br><em>à votre table</em></h2>
+        <p class="hero-phase__sub">Une pâte à sarrasin traditionnelle, une garniture généreuse — le vrai goût des galettes bretonnes.</p>
+      </div>
+
+      <div class="hero-phase" id="phase-2" role="text">
+        <span class="hero-phase__eyebrow">20 rue Henry le Châtelier</span>
+        <h2 class="hero-phase__title">Une adresse<br><em>qui manquait</em></h2>
+        <p class="hero-phase__sub">Au cœur de Castres, une crêperie chaleureuse où chaque détail compte.</p>
+      </div>
+
+    </div>
+
+    <!-- CTA button — appears at 80% of hero scroll -->
+    <div class="hero-cta" id="hero-cta" aria-hidden="true">
+      <a href="tel:0634522900" class="hero-cta__btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.82 19.79 19.79 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+        </svg>
+        Appeler pour réserver
+      </a>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="hero-hint" id="hero-hint" aria-hidden="true">
+      <span class="hero-hint__label">Défiler</span>
+      <div class="hero-hint__line"></div>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="hero-progress" id="hero-progress" aria-hidden="true"></div>
+
   </div>
+</section>
 
-  <!-- =====================================================
-       NAVIGATION - VERSION HAUT
-       ===================================================== -->
-  <nav class="nav" id="nav" aria-label="Navigation principale">
-    <a href="/" class="nav__logo">La Petite Crêperie</a>
-    <ul class="nav__links">
-      <li><a href="#histoire">Histoire</a></li>
-      <li><a href="#carte">La Carte</a></li>
-      <li><a href="#equipe">L'équipe</a></li>
-      <li><a href="#avis">Avis</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <a href="tel:0634522900" class="nav__cta" aria-label="Appeler le 06 34 52 29 00">06 34 52 29 00</a>
-  </nav>
+<!-- ── Section 2 — Présentation ─────────────────────── -->
+<section class="section-presentation" id="presentation" aria-label="Notre histoire">
+  <div class="presentation-inner">
 
-  <!-- =====================================================
-       HERO
-       ===================================================== -->
-  <section class="hero" id="hero" aria-label="Accueil">
-    <div class="hero__bg" id="hero-bg" role="img" aria-label="Galette sarrasin sur billig en fonte"></div>
-    <div class="hero__vignette" aria-hidden="true"></div>
-
-    <div class="hero__brand" aria-hidden="true">
-      <span class="hero__brand-name">La Petite Crêperie</span>
-    </div>
-
-    <div class="hero__score" aria-label="Note client 4,8 sur 5 étoiles Google">
-      <div class="hero__score-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-      <div class="hero__score-text">4.8 - Google</div>
-    </div>
-
-    <div class="hero__content">
-      <h1 class="hero__title">
-        <span class="hero__title-main">Galettes</span>
-        <span class="hero__title-sub">&amp; crêpes</span>
-      </h1>
-
-      <div class="hero__infos" role="list" aria-label="Informations pratiques">
-        <div class="hero__info" role="listitem">
-          <div class="hero__info-label">Horaires</div>
-          <div class="hero__info-value">Lun - Sam - 11h45 à 14h15</div>
-        </div>
-        <div class="hero__info" role="listitem">
-          <div class="hero__info-label">Adresse</div>
-          <div class="hero__info-value">20 rue Henry le Châtelier, Castres</div>
-        </div>
-        <div class="hero__info" role="listitem">
-          <div class="hero__info-label">Téléphone</div>
-          <div class="hero__info-value"><a href="tel:0634522900">06 34 52 29 00</a></div>
-        </div>
+    <div class="presentation-visual reveal">
+      <div class="presentation-placeholder" id="presentation-photo">
+        <span>LPC</span>
+      </div>
+      <div class="presentation-tag">
+        Ouvert depuis<br>2019
       </div>
     </div>
 
-    <span class="hero__scroll" aria-hidden="true">Défiler ↓</span>
-  </section>
-
-  <!-- =====================================================
-       RUBAN ANIMÉ
-       ===================================================== -->
-  <div class="ruban" aria-hidden="true">
-    <div class="ruban__track">
-      <div class="ruban__inner">
-        <span class="ruban__item">Galettes bretonnes <span class="ruban__sep">✦</span></span>
-        <span class="ruban__item">Blé noir bio <span class="ruban__sep">✦</span></span>
-        <span class="ruban__item">Produits du Tarn <span class="ruban__sep">✦</span></span>
-        <span class="ruban__item">Circuit court <span class="ruban__sep">✦</span></span>
-        <span class="ruban__item">Préparation minute <span class="ruban__sep">✦</span></span>
-        <span class="ruban__item">Fait maison <span class="ruban__sep">✦</span></span>
-      </div>
-      <div class="ruban__inner">
-        <span class="ruban__item">Galettes bretonnes <span class="ruban__sep">✦</span></span>
-        <span class="ruban__item">Blé noir bio <span class="ruban__sep">✦</span></span>
-        <span class="ruban__item">Produits du Tarn <span class="ruban__sep">✦</span></span>
-        <span class="ruban__item">Circuit court <span class="ruban__sep">✦</span></span>
-        <span class="ruban__item">Préparation minute <span class="ruban__sep">✦</span></span>
-        <span class="ruban__item">Fait maison <span class="ruban__sep">✦</span></span>
-      </div>
-    </div>
-  </div>
-
-  <!-- =====================================================
-       HISTOIRE
-       ===================================================== -->
-  <section class="histoire" id="histoire" aria-label="Notre histoire">
-    <div class="histoire__watermark" aria-hidden="true">Bretagne</div>
-    <div class="histoire__grid">
-
-      <div class="histoire__content">
-        <span class="histoire__kicker sr">Notre histoire</span>
-        <h2 class="histoire__titre sr d1">Le Tarn rencontre <em>la Bretagne</em></h2>
-        <p class="histoire__texte sr d2">Ouverte en 2023 par Marine, La Petite Crêperie est née d'une envie simple et sincère : apporter la tradition des galettes bretonnes au coeur du Tarn. Ici, le sarrasin bio voyage depuis la Bretagne pour rencontrer les produits du terroir local.</p>
-        <p class="histoire__texte sr d3">Chaque galette est préparée à la minute, sur des billigs en fonte hérités d'une longue tradition. Marine et son équipe choisissent leurs producteurs avec soin, privilégiant le circuit court et les saveurs authentiques.</p>
-        <div class="histoire__pills sr d3">
-          <span class="histoire__pill">Sarrasin breton</span>
-          <span class="histoire__pill">Producteurs locaux</span>
-          <span class="histoire__pill">Ouvert en 2023</span>
-          <span class="histoire__pill">Castres, Tarn</span>
-        </div>
-      </div>
-
-      <div class="histoire__photo-wrap sr-right">
-        <div class="histoire__photo">
-          <img src="images/histoire.jpg" alt="Galette sarrasin préparée à la minute sur billig en fonte" loading="lazy">
-        </div>
-        <span class="histoire__etiquette">Castres - 2023</span>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- =====================================================
-       VALEURS
-       ===================================================== -->
-  <section class="valeurs" aria-label="Nos engagements">
-    <div class="valeurs__grid">
-
-      <div class="valeurs__item sr">
-        <span class="valeurs__num" aria-hidden="true">01</span>
-        <span class="valeurs__label">Circuit court</span>
-        <h3 class="valeurs__titre">Producteurs locaux</h3>
-        <p class="valeurs__desc">Nous travaillons en direct avec les agriculteurs et artisans du Tarn pour garantir fraîcheur et traçabilité.</p>
-      </div>
-
-      <div class="valeurs__item sr d1">
-        <span class="valeurs__num" aria-hidden="true">02</span>
-        <span class="valeurs__label">Fait maison</span>
-        <h3 class="valeurs__titre">Recettes maison</h3>
-        <p class="valeurs__desc">Caramel beurre salé, garnitures, sauces - tout est préparé chaque matin dans notre cuisine.</p>
-      </div>
-
-      <div class="valeurs__item sr d2">
-        <span class="valeurs__num" aria-hidden="true">03</span>
-        <span class="valeurs__label">À la minute</span>
-        <h3 class="valeurs__titre">Fraîcheur absolue</h3>
-        <p class="valeurs__desc">Chaque crêpe et galette est cuite à la commande, sur billig en fonte, pour une texture et une saveur incomparables.</p>
-      </div>
-
-      <div class="valeurs__item sr d3">
-        <span class="valeurs__num" aria-hidden="true">04</span>
-        <span class="valeurs__label">De saison</span>
-        <h3 class="valeurs__titre">Carte évolutive</h3>
-        <p class="valeurs__desc">Notre carte suit les saisons et les arrivages. Les suggestions du mois reflètent le meilleur du moment.</p>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- =====================================================
-       LA CARTE
-       ===================================================== -->
-  <section class="carte" id="carte" aria-label="La carte">
-    <div class="carte__watermark" aria-hidden="true">C</div>
-    <div class="carte__inner">
-
-      <div class="carte__header">
-        <div class="carte__header-left">
-          <span class="carte__kicker sr">Galettes &amp; Crêpes</span>
-          <h2 class="carte__titre sr d1">La <em>Carte</em></h2>
-        </div>
-        <a href="#" class="carte__lien sr" aria-label="Voir la carte complète">Carte complète →</a>
-      </div>
-
-      <div class="carte__categories">
-
-        <div class="carte__cat sr">
-          <h3 class="carte__cat-title">Galettes - sarrasin bio breton</h3>
-          <ul class="carte__plats">
-            <li class="carte__plat">
-              <div class="carte__plat-info">
-                <div class="carte__plat-nom">La Complète</div>
-                <div class="carte__plat-desc">Oeuf, jambon, emmental fondu</div>
-              </div>
-              <span class="carte__plat-prix">12,50 €</span>
-            </li>
-            <li class="carte__plat">
-              <div class="carte__plat-info">
-                <div class="carte__plat-nom">Yvonne <em>suggestion du mois</em></div>
-                <div class="carte__plat-desc">Oeuf miroir, jambon de pays affiné 12 mois, Grana Padano, tomates confites, olives noires, crème balsamique</div>
-              </div>
-              <span class="carte__plat-prix">15,50 €</span>
-            </li>
-            <li class="carte__plat">
-              <div class="carte__plat-info">
-                <div class="carte__plat-nom">La Marguerite</div>
-                <div class="carte__plat-desc">Chèvre frais, noix, miel, roquette, tomates séchées</div>
-              </div>
-              <span class="carte__plat-prix">13,50 €</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="carte__cat sr d1">
-          <h3 class="carte__cat-title">Crêpes sucrées</h3>
-          <ul class="carte__plats">
-            <li class="carte__plat">
-              <div class="carte__plat-info">
-                <div class="carte__plat-nom">Beurre sucre</div>
-                <div class="carte__plat-desc"></div>
-              </div>
-              <span class="carte__plat-prix">5,50 €</span>
-            </li>
-            <li class="carte__plat">
-              <div class="carte__plat-info">
-                <div class="carte__plat-nom">Armelle <em>suggestion du mois</em></div>
-                <div class="carte__plat-desc">Caramel beurre salé maison, éclats de palet breton, glace Palet Breton</div>
-              </div>
-              <span class="carte__plat-prix">9,00 €</span>
-            </li>
-            <li class="carte__plat">
-              <div class="carte__plat-info">
-                <div class="carte__plat-nom">Banana Split</div>
-                <div class="carte__plat-desc">Banane fraîche, chocolat noir maison, chantilly, éclats de noisette</div>
-              </div>
-              <span class="carte__plat-prix">8,50 €</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="carte__cat sr d2">
-          <h3 class="carte__cat-title">Boissons &amp; Cidres</h3>
-          <ul class="carte__plats">
-            <li class="carte__plat">
-              <div class="carte__plat-info">
-                <div class="carte__plat-nom">Cidre rosé Val de Rance</div>
-                <div class="carte__plat-desc">Cidre breton artisanal, fruité, légèrement pétillant</div>
-              </div>
-              <span class="carte__plat-prix">5,00 €</span>
-            </li>
-            <li class="carte__plat">
-              <div class="carte__plat-info">
-                <div class="carte__plat-nom">Bière Lancelot</div>
-                <div class="carte__plat-desc">Brasserie bretonne artisanale - blonde ou ambrée</div>
-              </div>
-              <span class="carte__plat-prix">4,50 €</span>
-            </li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- =====================================================
-       GALERIE
-       ===================================================== -->
-  <section class="galerie" aria-label="Galerie photos">
-    <div class="galerie__item">
-      <img src="images/gallery-1.jpg" alt="Galette complète sur billig en fonte" loading="lazy">
-    </div>
-    <div class="galerie__item">
-      <img src="images/gallery-2.jpg" alt="Intérieur chaleureux de la crêperie" loading="lazy">
-    </div>
-    <div class="galerie__item">
-      <img src="images/gallery-3.jpg" alt="Crêpe sucrée caramel beurre salé" loading="lazy">
-    </div>
-    <div class="galerie__item">
-      <img src="images/gallery-4.jpg" alt="Cidre breton et galettes en terrasse" loading="lazy">
-    </div>
-    <div class="galerie__item">
-      <img src="images/gallery-5.jpg" alt="Détail des garnitures fraîches" loading="lazy">
-    </div>
-  </section>
-
-  <!-- =====================================================
-       ÉQUIPE
-       ===================================================== -->
-  <section class="equipe" id="equipe" aria-label="Notre équipe">
-    <div class="equipe__watermark" aria-hidden="true">Équipe</div>
-    <div class="equipe__header">
-      <span class="equipe__kicker sr">L'équipe</span>
-      <h2 class="equipe__titre sr d1">Les visages de <em>la crêperie</em></h2>
-    </div>
-    <div class="equipe__grid">
-
-      <div class="equipe__card sr">
-        <div class="equipe__photo-wrap">
-          <img class="equipe__photo" src="assets/marine.png" alt="Marine, gérante et cheffe crêpier" loading="lazy">
-        </div>
-        <div class="equipe__info">
-          <span class="equipe__role">Gérante &amp; Cheffe crêpier</span>
-          <span class="equipe__nom">Marine</span>
-        </div>
-      </div>
-
-      <div class="equipe__card sr d1">
-        <div class="equipe__photo-wrap">
-          <img class="equipe__photo" src="assets/pagnia.png" alt="Pa-Gnia, serveuse" loading="lazy">
-        </div>
-        <div class="equipe__info">
-          <span class="equipe__role">Serveuse</span>
-          <span class="equipe__nom">Pa-Gnia</span>
-        </div>
-      </div>
-
-      <div class="equipe__card sr d2">
-        <div class="equipe__photo-wrap">
-          <img class="equipe__photo" src="assets/sandy.png" alt="Sandy, serveuse" loading="lazy">
-        </div>
-        <div class="equipe__info">
-          <span class="equipe__role">Serveuse</span>
-          <span class="equipe__nom">Sandy</span>
-        </div>
-      </div>
-
-      <div class="equipe__card sr d3">
-        <div class="equipe__photo-wrap">
-          <img class="equipe__photo" src="assets/nathan.png" alt="Nathan, crêpier" loading="lazy">
-        </div>
-        <div class="equipe__info">
-          <span class="equipe__role">Crêpier</span>
-          <span class="equipe__nom">Nathan</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- =====================================================
-       AVIS CLIENTS
-       ===================================================== -->
-  <section class="avis" id="avis" aria-label="Avis clients">
-    <div class="avis__inner">
-
-      <div class="avis__score-col">
-        <span class="avis__kicker">Avis Google</span>
-        <div class="avis__note sr" aria-label="Note de 4,8 sur 5">4.8</div>
-        <div class="avis__etoiles" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <span class="avis__source">Sur Google Maps</span>
-      </div>
-
-      <div class="avis__grid">
-        <div class="avis__card sr">
-          <p class="avis__text">"Une vraie galette bretonne à Castres, c'est rare. La pâte est parfaite, le service attentionné. On y retourne chaque semaine depuis l'ouverture."</p>
-          <span class="avis__auteur">Claire D.</span>
-        </div>
-        <div class="avis__card sr d1">
-          <p class="avis__text">"Marine est passionnée et ça se sent dans chaque assiette. La suggestion du mois change régulièrement et vaut toujours le détour."</p>
-          <span class="avis__auteur">Thomas R.</span>
-        </div>
-        <div class="avis__card sr d2">
-          <p class="avis__text">"Cadre chaleureux, produits frais, prix honnêtes. Le cidre Val de Rance avec la Complète, c'est un accord parfait."</p>
-          <span class="avis__auteur">Nathalie B.</span>
-        </div>
-        <div class="avis__card sr d3">
-          <p class="avis__text">"La meilleure adresse déjeuner de Castres. L'Armelle (suggestion sucrée) est une merveille. On est clients fidèles depuis le premier jour."</p>
-          <span class="avis__auteur">Kevin M.</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- =====================================================
-       CONTACT
-       ===================================================== -->
-  <section class="contact" id="contact" aria-label="Nous trouver">
-
-    <div class="contact__info">
-      <span class="contact__kicker sr">Nous trouver</span>
-      <h2 class="contact__titre sr d1">Venez nous <em>rendre visite</em></h2>
-      <ul class="contact__liste" role="list">
-        <li>
-          <div class="contact__item-label">Adresse</div>
-          <address class="contact__item-value">20 rue Henry le Châtelier<br>81100 Castres<br>(Hall de la Jardinerie Tarnaise)</address>
-        </li>
-        <li>
-          <div class="contact__item-label">Téléphone</div>
-          <div class="contact__item-value"><a href="tel:0634522900">06 34 52 29 00</a></div>
-        </li>
-        <li>
-          <div class="contact__item-label">Email</div>
-          <div class="contact__item-value"><a href="mailto:lapetite.creperie@hotmail.com">lapetite.creperie@hotmail.com</a></div>
-        </li>
-        <li>
-          <div class="contact__item-label">Horaires</div>
-          <div class="contact__item-value">Lun - Sam - 11h45 à 14h15<br>Fermé le dimanche</div>
-        </li>
+    <div class="presentation-text">
+      <span class="section-eyebrow reveal">Notre histoire</span>
+      <h2 class="section-title reveal" data-delay="1">Une passion<br><em>transmise</em></h2>
+      <p class="section-body reveal" data-delay="2">
+        La Petite Crêperie est née d'une envie simple : proposer à Castres
+        une cuisine honnête, généreuse et faite maison. Marine, cheffe crêpière
+        de cœur, a appris les gestes auprès de sa famille bretonne avant de poser
+        ses casseroles en terre tarnaise.
+      </p>
+      <p class="section-body reveal" data-delay="2">
+        Ici, tout part du respect du produit — farine de sarrasin bio, beurre
+        fermier, œufs de poules élevées en plein air. La carte change au fil
+        des saisons pour refléter le meilleur du marché.
+      </p>
+      <div class="section-divider reveal" data-delay="3"></div>
+      <ul class="info-list reveal" data-delay="3">
+        <li>20 rue Henry le Châtelier, 81100 Castres</li>
+        <li>Ouvert du mardi au dimanche, midi et soir</li>
+        <li>Réservation conseillée le week-end</li>
       </ul>
     </div>
 
-    <div class="contact__map">
-      <iframe
-        src="https://maps.google.com/maps?hl=fr&q=20+rue+Henry+le+Chatelier+81100+Castres&ie=UTF8&output=embed"
-        title="Localisation La Petite Crêperie - 20 rue Henry le Châtelier, Castres"
-        loading="lazy"
-        allowfullscreen
-        referrerpolicy="no-referrer-when-downgrade"
-      ></iframe>
+  </div>
+</section>
+
+<!-- ── Section 3 — Points forts ─────────────────────── -->
+<section class="section-forts" id="forts" aria-label="L'esprit de la maison">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">L'esprit de la maison</span>
+    <h2 class="section-title" style="text-align:center; margin-bottom:0">Ce qui nous<br><em>définit</em></h2>
+  </div>
+
+  <div class="cards-grid">
+
+    <article class="card reveal" data-delay="1">
+      <svg class="card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M24 8c0 0-10 9-10 18a10 10 0 0020 0C34 17 24 8 24 8z"/>
+        <path d="M24 28v8"/>
+      </svg>
+      <h3 class="card__title">Produits frais<br>& de saison</h3>
+      <p class="card__body">Farine de sarrasin bio, légumes du marché, fromages locaux. Nous ne transigeons pas sur la qualité des ingrédients — c'est là que tout commence.</p>
+    </article>
+
+    <article class="card reveal" data-delay="2">
+      <svg class="card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M16 36V20c0-5 4-12 8-12s8 7 8 12v16"/>
+        <path d="M12 36h24"/>
+        <path d="M24 20v8"/>
+      </svg>
+      <h3 class="card__title">Tout préparé<br>le matin même</h3>
+      <p class="card__body">Nos pâtes reposent la nuit pour développer toute leur saveur. Pas de réchauffé, pas de surgelé — chaque galette est assemblée à la commande.</p>
+    </article>
+
+    <article class="card reveal" data-delay="3">
+      <svg class="card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M24 38s-14-8-14-20a14 14 0 0128 0C38 30 24 38 24 38z"/>
+        <path d="M24 24m-4 0a4 4 0 108 0 4 4 0 10-8 0"/>
+      </svg>
+      <h3 class="card__title">Une ambiance<br>chaleureuse</h3>
+      <p class="card__body">Une salle à taille humaine, une équipe souriante, et une adresse où l'on revient. La Petite Crêperie, c'est le plaisir d'un repas vrai dans un endroit sincère.</p>
+    </article>
+
+  </div>
+</section>
+
+<!-- ── Section 4 — CTA réservation ──────────────────── -->
+<section class="section-reservation" id="reservation" aria-label="Réserver une table">
+  <div class="reservation-inner">
+
+    <span class="section-eyebrow reveal">Venez nous retrouver</span>
+    <h2 class="reservation-title reveal" data-delay="1">
+      Votre table<br><em>vous attend</em>
+    </h2>
+    <div class="reservation-divider reveal" data-delay="2"></div>
+    <p class="reservation-body reveal" data-delay="2">
+      La salle est petite, l'accueil est grand.<br>
+      Réservez par téléphone ou passez directement — nous ferons en sorte de vous accueillir.
+    </p>
+
+    <div class="reservation-actions reveal" data-delay="3">
+      <a href="tel:0634522900" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.82 19.79 19.79 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+        </svg>
+        06 34 52 29 00
+      </a>
+      <a href="mailto:lapetite.creperie@hotmail.com" class="btn-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        Écrire un e-mail
+      </a>
     </div>
 
-  </section>
+    <p class="reservation-contact reveal" data-delay="3">
+      20 rue Henry le Châtelier · 81100 Castres ·
+      <a href="mailto:lapetite.creperie@hotmail.com">lapetite.creperie@hotmail.com</a>
+    </p>
 
-  <!-- =====================================================
-       FOOTER
-       ===================================================== -->
-  <footer class="footer" aria-label="Pied de page">
-    <span class="footer__logo">La Petite Crêperie</span>
-    <ul class="footer__nav" role="list">
-      <li><a href="#histoire">Histoire</a></li>
-      <li><a href="#carte">La Carte</a></li>
-      <li><a href="#equipe">Équipe</a></li>
-      <li><a href="#contact">Contact</a></li>
-      <li><a href="mentions-legales.html">Mentions légales</a></li>
-    </ul>
-    <p class="footer__credit">Création <a href="#" rel="noopener noreferrer">AlcalSpark</a></p>
-  </footer>
+  </div>
+</section>
 
-  <script src="main.js"></script>
+<!-- ── Footer ────────────────────────────────────────── -->
+<footer class="footer" aria-label="Pied de page">
+  <div class="footer-inner">
+
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="footer-logo">La Petite Crêperie</a>
+        <p>Galettes bretonnes et crêpes maison au cœur de Castres, depuis 2019.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#presentation">Notre histoire</a></li>
+          <li><a href="#forts">L'esprit</a></li>
+          <li><a href="#reservation">Réserver</a></li>
+          <li><a href="mentions-legales.html">Mentions légales</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Horaires</h4>
+        <ul>
+          <li><a>Mar – Ven : 12h – 14h</a></li>
+          <li><a>Mar – Sam : 19h – 22h</a></li>
+          <li><a>Dim : 12h – 14h30</a></li>
+          <li><a>Lundi : fermé</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <address class="footer-address">
+          20 rue Henry le Châtelier<br>
+          81100 Castres<br><br>
+          <a href="tel:0634522900">06 34 52 29 00</a><br>
+          <a href="mailto:lapetite.creperie@hotmail.com">lapetite.creperie@hotmail.com</a>
+        </address>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 La Petite Crêperie. Tous droits réservés.</p>
+      <p>Création <a href="#" rel="noopener noreferrer">AlcalSpark</a></p>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // ── Navbar ─────────────────────────────────────────
+  const nav    = document.getElementById('nav');
+  const burger = document.getElementById('burger');
+  const drawer = document.getElementById('drawer');
+
+  function updateNav() {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+
+  burger.addEventListener('click', () => {
+    const open = burger.classList.toggle('open');
+    drawer.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+
+  drawer.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      burger.classList.remove('open');
+      drawer.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // ── Video scroll-drive ─────────────────────────────
+  const isMobile     = window.innerWidth < 1024;
+  const heroSection  = document.getElementById('hero-section');
+  const video        = document.getElementById('hero-video');
+  const heroHint     = document.getElementById('hero-hint');
+  const heroCta      = document.getElementById('hero-cta');
+  const heroProgress = document.getElementById('hero-progress');
+  const phases       = [
+    document.getElementById('phase-0'),
+    document.getElementById('phase-1'),
+    document.getElementById('phase-2'),
+  ];
+
+  const VIDEO_DURATION = 13;
+
+  let targetVideoTime  = 0;
+  let currentVideoTime = 0;
+  let currentPhase     = -1;
+  let ctaVisible       = false;
+
+  function getScrollProgress() {
+    const rect      = heroSection.getBoundingClientRect();
+    const scrolled  = -rect.top;
+    const maxScroll = heroSection.offsetHeight - window.innerHeight;
+    return Math.max(0, Math.min(scrolled / maxScroll, 1));
+  }
+
+  function showPhase(index) {
+    if (index === currentPhase) return;
+    phases.forEach((el, i) => el.classList.toggle('visible', i === index));
+    currentPhase = index;
+  }
+
+  function tick() {
+    requestAnimationFrame(tick);
+
+    const progress = getScrollProgress();
+    targetVideoTime = progress * VIDEO_DURATION;
+
+    currentVideoTime += (targetVideoTime - currentVideoTime) * 0.08;
+    if (video.readyState >= 2 && Math.abs(video.currentTime - currentVideoTime) > 0.04) {
+      video.currentTime = currentVideoTime;
+    }
+
+    heroProgress.style.width = (progress * 100).toFixed(2) + '%';
+
+    if      (progress < 0.30) showPhase(0);
+    else if (progress < 0.65) showPhase(1);
+    else                      showPhase(2);
+
+    const ctaNow = progress >= 0.80;
+    if (ctaNow !== ctaVisible) {
+      heroCta.classList.toggle('visible', ctaNow);
+      heroCta.setAttribute('aria-hidden', String(!ctaNow));
+      ctaVisible = ctaNow;
+    }
+
+    if (progress > 0.04) heroHint.classList.add('hidden');
+  }
+
+  if (isMobile) {
+    video.loop    = true;
+    video.autoplay = true;
+    video.play().catch(() => {});
+    showPhase(0);
+    heroHint.classList.add('hidden');
+    heroCta.classList.add('visible');
+    heroCta.setAttribute('aria-hidden', 'false');
+  } else {
+    showPhase(0);
+    requestAnimationFrame(tick);
+  }
+
+  // ── IntersectionObserver ───────────────────────────
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+})();
+</script>
+
 </body>
 </html>
